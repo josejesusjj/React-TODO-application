@@ -4,42 +4,43 @@ import React, { useState } from "react";
 
 const InputTask = () => {
 	//aqui va las const para el input
-	const [text, setText] = useState("i");
-
-	const handleChange = (event) => {
-		setText(event.target.value);
-	};
 
 	//aqui van para el database
 
 	const tasklist = [{ name: "comer" }, { name: "vivir" }];
 
-	const [task, setTask] = useState("i");
+	const [text, setText] = useState("i");
 
 	const handleClick = (event) => {
-		setTask(event.target.value);
+		setText(event.target.value);
+		tasklist.push("{text}");
 	};
 
 	return (
-		<div>
+		<div id="bodyapp">
+			<h1 id="title">todos</h1>
 			<h3>{text}</h3>
-			<input type="text" name="search" onChange={handleChange} />
-			<button type="task" name="search" onClick={handleClick}>
-				<input />
-				Create
-			</button>
-			<h3>{task}</h3>
-			<p></p>
-			<ul>
+
+			<ul class="list-group tasklist">
+				<button
+					type="task"
+					name="event "
+					onClick={handleClick}
+					class="list-group-item">
+					<input />
+				</button>
 				{tasklist.map((value, index) => {
 					return (
-						<li key={index}>
-							{value.name} {index}
+						<li key={index} class="list-group-item">
+							<tr>
+								<td id="task">{value.name}</td>
+								<td id="index">{index}</td>
+							</tr>
 						</li>
 					);
 				})}
 			</ul>
-			<p></p>
+			<div class="footer list-group-item">item left</div>
 		</div>
 	);
 };
