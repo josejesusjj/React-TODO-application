@@ -7,9 +7,13 @@ const InputTask = () => {
 
 	//aqui van para el database
 
-	const tasklist = [{ name: "comer" }, { name: "vivir" }];
+	const tasklist = [{ name: "comer" }, { name: "vivir" }, { name: "dormir" }];
 
-	const [text, setText] = useState("i");
+	const [text, setText] = useState("nada que mostrar");
+
+	let item = tasklist.length;
+
+	const [itemleft, setItemleft] = useState(item);
 
 	const handleClick = (event) => {
 		setText(event.target.value);
@@ -43,7 +47,9 @@ const InputTask = () => {
 					);
 				})}
 			</ul>
-			<div class="footer list-group-item">item left</div>
+			<div class="footer list-group-item">
+				<p> {itemleft} item left</p>
+			</div>
 		</div>
 	);
 };
