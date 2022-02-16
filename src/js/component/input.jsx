@@ -26,8 +26,11 @@ const InputTask = () => {
 					type="task"
 					name="event "
 					onClick={handleClick}
-					class="list-group-item">
-					<input />
+					class="list-group-item ">
+					<input
+						class="newItem"
+						placeholder="What needs to be done?"
+					/>
 				</button>
 				{tasklist.map((value, index) => {
 					return (
