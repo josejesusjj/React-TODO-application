@@ -19,7 +19,6 @@ const InputTask = () => {
 			<ul class="list-group tasklist">
 				<button
 					type="task"
-					name="event "
 					onClick={handleClick}
 					class="list-group-item ">
 					<input

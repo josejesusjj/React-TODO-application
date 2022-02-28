@@ -36,6 +36,7 @@ const TodoComponent = () => {
 					name=""
 					id=""
 					value={input_task}
+					placeholder="What needs to be done?"
 				/>
 			</div>
 			<div>
