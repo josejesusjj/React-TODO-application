@@ -1,12 +1,5 @@
-import { arrayOf } from "prop-types";
 import React, { useState } from "react";
-//notas: para agregar un nuevo item a un array es arr.push()
-
 const InputTask = () => {
-	//aqui va las const para el input
-
-	//aqui van para el database
-
 	const tasklist = [{ name: "comer" }, { name: "vivir" }, { name: "dormir" }];
 
 	const [text, setText] = useState("nada que mostrar");
@@ -23,8 +16,6 @@ const InputTask = () => {
 	return (
 		<div id="bodyapp">
 			<h1 id="title">todos</h1>
-			<h3>{text}</h3>
-
 			<ul class="list-group tasklist">
 				<button
 					type="task"
