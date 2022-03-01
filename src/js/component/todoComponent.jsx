@@ -14,47 +14,55 @@ const TodoComponent = () => {
 			set_Input_task("");
 		}
 	};
+
 	const DeleteItems = (indexItem) => {
 		set_Task_list((prevState) =>
 			prevState.filter((f, index) => index !== indexItem)
 		);
 	};
+
+	const itemleft = task_list.length;
+
 	return (
-		<div className="container-fluid bodyapp">
-			<h1 id="title">todos</h1>
-			<div className="input list-group tasklist">
-				<input
-					type="task"
-					onKeyPress={(e) => {
-						handleKey(e);
-						console.log(e);
-					}}
-					onChange={(event) => {
-						set_Input_task(event.target.value);
-						console.log(event.target.value);
-					}}
-					name=""
-					id=""
-					value={input_task}
-					placeholder="What needs to be done?"
-				/>
-			</div>
-			<div>
-				<task_list className="task_list">
-					<ul>
+		<div className="bodyapp contain">
+			<h1 className=" fw-light title">todos</h1>
+			<div className="input list-group tasklist"></div>
+			<div className="bodyapp">
+				<task_list className="task_list list-group tasklist fs-3">
+					<input
+						type="task"
+						onKeyPress={(e) => {
+							handleKey(e);
+							console.log(e);
+						}}
+						onChange={(event) => {
+							set_Input_task(event.target.value);
+							console.log(event.target.value);
+						}}
+						name=""
+						id=""
+						value={input_task}
+						placeholder="What needs to be done?"
+					/>
+					<ul className="list">
 						{task_list.map((t, index) => (
-							<li key={index} className="list-group-item index">
-								{t}
+							<li
+								key={index}
+								className="list-group-item index d-flex text-secondary ps-5 shadow">
+								<p className="p-2 w-100 fs-3 fw-light ">{t}</p>
 								<button
-									className="btn DelItem"
+									className="btn DelItem text-end text-danger"
 									onClick={() => DeleteItems(index)}>
-									<i className="fas fa-times" />
+									<i className="fas fa-times p-2 flex-shrink-1" />
 								</button>
 							</li>
 						))}
-						<tr>
-							<th scope="col">ToDo-s List</th>
-						</tr>
+						<p className="footer list-group-item shadow">
+							{" "}
+							{itemleft} item left
+						</p>
+						<p className="endZone list-group-item shadow"></p>
+						<p className="endZone2 list-group-item shadow "></p>
 					</ul>
 				</task_list>
 			</div>
