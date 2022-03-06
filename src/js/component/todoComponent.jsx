@@ -53,7 +53,7 @@ const TodoComponent = () => {
 								<button
 									className="btn DelItem text-end text-danger"
 									onClick={() => DeleteItems(index)}>
-									<i className="fas fa-times p-2 flex-shrink-1" />
+									<i className="fa fa-trash p-2 flex-shrink-1" />
 								</button>
 							</li>
 						))}
