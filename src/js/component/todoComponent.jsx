@@ -5,34 +5,31 @@ const TodoComponent = () => {
 	const [input_task, set_Input_task] = useState("");
 	const [Object, setObject] = useState([]);
 	const [task_list, setTask_list] = useState([]);
-
-	const addText = (task) => {
-		let newTask = [...task_list, task];
-		setTask_list(newTask);
-	};
-	const addObject = (task) => {
-		let newObject = [...Object, { label: task, done: false }];
-		setObject(newObject);
-	};
-	const handleKey = (e) => {
-		if (e.key === "Enter" && input_task !== " " && input_task !== "") {
-			addText(input_task);
-			addObject(input_task);
-			set_Input_task("");
-			console.log(Object);
-		}
-	};
-
-	const DeleteItems = (indexItem) => {
-		setTask_list((prevState) =>
-			prevState.filter((f, index) => index !== indexItem)
-		);
-		setObject((prevState) =>
-			prevState.filter((f, index) => index !== indexItem)
-		);
-	};
+	console.log("the object list: " + Object);
 
 	const itemleft = task_list.length;
+
+	fetch("https://assets.breatheco.de/apis/fake/todos/user/josecedeno", {
+		method: "PUT",
+		body: JSON.stringify(Object),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then((resp) => {
+			console.log(resp.ok); // will be true if the response is successfull
+			console.log(resp.status); // the status code = 200 or code = 400 etc.
+			console.log(resp.text()); // will try return the exact result as string
+			return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+		})
+		.then((data) => {
+			//here is were your code should start after the fetch finishes
+			console.log(data); //this will print on the console the exact object received from the server
+		})
+		.catch((error) => {
+			//error handling
+			console.log(error);
+		});
 
 	//Creating the api user
 	const start = () => {
@@ -75,6 +72,7 @@ const TodoComponent = () => {
 				//here is were your code should start after the fetch finishes
 				console.log(data); //this will print on the console the exact object received from the server
 				setTask_list(data);
+				setObject(data);
 			})
 			.catch((error) => {
 				//error handling
@@ -107,29 +105,26 @@ const TodoComponent = () => {
 			});
 	};
 
-	//Updating the list
-	const updating = () => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/josecedeno", {
-			method: "PUT",
-			body: JSON.stringify(Object),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((resp) => {
-				console.log(resp.ok); // will be true if the response is successfull
-				console.log(resp.status); // the status code = 200 or code = 400 etc.
-				console.log(resp.text()); // will try return the exact result as string
-				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
-			})
-			.then((data) => {
-				//here is were your code should start after the fetch finishes
-				console.log(data); //this will print on the console the exact object received from the server
-			})
-			.catch((error) => {
-				//error handling
-				console.log(error);
-			});
+	const handleKey = (e) => {
+		if (e.key === "Enter" && input_task !== " " && input_task !== "") {
+			console.log("the input_task is: " + input_task);
+			let newObject = [...Object, { label: input_task, done: false }];
+			setObject(newObject);
+			set_Input_task("");
+		}
+	};
+	const handleDone = (e) => {
+		if (e.key === "Enter" && input_task !== " " && input_task !== "") {
+			console.log("the input_task is: " + input_task);
+			let newObject = [...Object, { label: input_task, done: false }];
+			setObject(newObject);
+			set_Input_task("");
+		}
+	};
+	const DeleteItems = (indexItem) => {
+		setObject((prevState) =>
+			prevState.filter((f, index) => index !== indexItem)
+		);
 	};
 
 	useEffect(() => {
@@ -139,30 +134,12 @@ const TodoComponent = () => {
 
 	return (
 		<div className="bodyapp contain">
-			{/*<button
-				onClick={start}
-				className="btn btn-primary m-3"
-				type="submit">
-				Initialize
-	</button>*/}
-			<button
-				onClick={updating}
-				className="btn btn-primary m-3"
-				type="submit">
-				Save
-			</button>
 			<button
 				onClick={deleteAll}
 				className="btn btn-primary m-3"
 				type="submit">
-				Finish
+				Delete All
 			</button>
-			{/*<button
-				onClick={retrieve}
-				className="btn btn-primary m-3"
-				type="submit">
-				retrieve
-			</button>*/}
 			<h1 className=" fw-light title">todos</h1>
 			<div className="input list-group tasklist"></div>
 			<div className="bodyapp">
@@ -171,16 +148,12 @@ const TodoComponent = () => {
 						type="task"
 						onKeyPress={(e) => {
 							handleKey(e);
-							updating(e);
-							console.log(e);
-							console.log("object: ", Object);
-							console.log("task_list: " + task_list);
-							console.log("input_task: " + input_task);
 						}}
 						onChange={(event) => {
 							set_Input_task(event.target.value);
-
-							console.log(event.target.value);
+							console.log(
+								"onchange event: " + event.target.value
+							);
 						}}
 						name=""
 						id=""
@@ -188,7 +161,7 @@ const TodoComponent = () => {
 						placeholder="What needs to be done?"
 					/>
 					<ul className="list">
-						{task_list.map((t, index) => (
+						{Object.map((t, index) => (
 							<li
 								key={index}
 								className="list-group-item index d-flex text-secondary ps-5 shadow">
