@@ -3,15 +3,14 @@ import React, { useState, useEffect } from "react";
 //This component create a tasklist
 const TodoComponent = () => {
 	const [input_task, set_Input_task] = useState("");
-	const [Object, setObject] = useState([]);
-	const [task_list, setTask_list] = useState([]);
-	console.log("the object list: " + Object);
+	const [taskList, setTaskList] = useState([]);
+	console.log("the taskList list is: " + taskList);
 
-	const itemleft = task_list.length;
+	const itemleft = taskList.length;
 
 	fetch("https://assets.breatheco.de/apis/fake/todos/user/josecedeno", {
 		method: "PUT",
-		body: JSON.stringify(Object),
+		body: JSON.stringify(taskList),
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -71,8 +70,7 @@ const TodoComponent = () => {
 			.then((data) => {
 				//here is were your code should start after the fetch finishes
 				console.log(data); //this will print on the console the exact object received from the server
-				setTask_list(data);
-				setObject(data);
+				setTaskList(data);
 			})
 			.catch((error) => {
 				//error handling
@@ -108,21 +106,13 @@ const TodoComponent = () => {
 	const handleKey = (e) => {
 		if (e.key === "Enter" && input_task !== " " && input_task !== "") {
 			console.log("the input_task is: " + input_task);
-			let newObject = [...Object, { label: input_task, done: false }];
-			setObject(newObject);
-			set_Input_task("");
-		}
-	};
-	const handleDone = (e) => {
-		if (e.key === "Enter" && input_task !== " " && input_task !== "") {
-			console.log("the input_task is: " + input_task);
-			let newObject = [...Object, { label: input_task, done: false }];
-			setObject(newObject);
+			let newObject = [...taskList, { label: input_task, done: false }];
+			setTaskList(newObject);
 			set_Input_task("");
 		}
 	};
 	const DeleteItems = (indexItem) => {
-		setObject((prevState) =>
+		setTaskList((prevState) =>
 			prevState.filter((f, index) => index !== indexItem)
 		);
 	};
@@ -141,7 +131,7 @@ const TodoComponent = () => {
 				Delete All
 			</button>
 			<h1 className=" fw-light title">todos</h1>
-			<div className="input list-group tasklist"></div>
+			<div className="input list-group tasklist row"></div>
 			<div className="bodyapp">
 				<div className="task_list list-group tasklist fs-3">
 					<input
@@ -161,20 +151,13 @@ const TodoComponent = () => {
 						placeholder="What needs to be done?"
 					/>
 					<ul className="list">
-						{Object.map((t, index) => (
+						{taskList.map((t, index) => (
 							<li
 								key={index}
 								className="list-group-item index d-flex text-secondary ps-5 shadow">
 								<p className="p-2 w-100 fs-3 fw-light ">
 									{t.label}
 								</p>
-								<input
-									className="form-check-input m-4"
-									name="done"
-									type="checkbox"
-									value="true"
-								/>
-
 								<button
 									className="btn DelItem text-end text-danger"
 									onClick={() => DeleteItems(index)}>
